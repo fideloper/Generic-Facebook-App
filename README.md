@@ -126,18 +126,95 @@ Here are some code snippets to help you get setup, login, etc.
 ####Open Graph: Doin' Stuff
 We want our users to do stuff, and share that on their wall/timeline. In the Open Graph settings, you can define what a user is doing, and it can be anything.
 
-Start by defining and Action and an Object. In our example, we're allowing people to `Eat` some `Bugs`.
+There are two types of objects an action can be performed on:
+
+1. **Object**: An object is a valid web URL with correspoding og:* meta tags to define what the object is.
+2. **Place**: A location that exists in FB, a location you can check into.
+
+```
+Example:  User just Ate a Bug.
+# Ate = action
+# Bug = object
+```
+
+When ane actions is performed, it's just like hitting a `Like` button on a webpage in how it appears on a user's Timeline - Image, caption, *optional* user image, etc.
+
+**Make an action and object:**
+
+Head to the Open Graph settings while editing your application. Start by defining and Action and an Object. In our example, we're allowing people to `Eat` some `Bugs`.
 
 ![Register App](readme/003-action.png)
 ![Register App](readme/004-object.png)
 
 After these **both** are created, you need to set them up further with some extra options. Click into your newly created Action (Eat).
 
+**Configure the action:**
+
 1. Under the Name of the action (Eat), enter in the corresponding Object (Bugs) in the Connected Object Types field.
-2. Scroll down to Configure Story Attachment and add in any captions or info you want to in included in the action when it is performed. If you click **advanced**, you can see/edit what the open graph action url will be (/me/apps_field_guide:eat).
+![Register App](readme/005-action.png)
+2. Scroll down to Configure Story Attachment and add in any captions or info you want to in included in when the action is performed. If you click **advanced**, you can see/edit what the open graph action url will be (/me/apps_field_guide:eat).
+![Register App](readme/006-action-caption.png)
 3. Save that.
 
-Now head to your Object type and click on it to edit (Bugs). Note you can make it an Object or a Place (location). 
+**Configure the object:**
+
+Now head to your Object type and click on it to edit (Bugs).
+
+1. Click on the object (Bug) to edit it
+2. Note you can make it an Object or Place. We're doing an Object here.
+![Register App](readme/007-object.png)
+3. You can add custom properties if you want. These will be needed in the og:* meta tags of your object URL
+4. Click on Get Code on the bottom to see what HTML code you'll need on the URL representing your object
+![Register App](readme/008-object-custom.png)
+
+Now, how does this all fit together? You'll need:
+
+1. A page for a user to perform the action. This is a page with a button which lets the user login, authenticate the application, and Eat the Bug.
+2. A page that represents the bug. This page will have the og:type=bug meta tag, in addition to og:app_id and other meta data (See Get Code when editing your Object, as mentioned above, to get all this info).
+
+**Client-side code**
+
+	/**
+	* 	This is for sharing
+	*
+	* 	@param: url - The URL of the item representing the Bug object (example.com/my-bug)
+	* 	@param: next - A javascript callback function (specific to this example)
+	*
+	*	Note the API url we are using - For current logged-in user (/me), perform action
+	* 	fido_stream_test:eat (your_app_namespace:action). The parameter it takes is the
+	*	object we created.
+	*/
+	this.fbPublish = function(url, next) {
+		FB.api(
+	        '/me/fido_stream_test:eat',
+	        'POST',
+	        {bug: url},
+	        function(response) {
+	           	if (!response || response.error) {
+	              	if(_debug) { console.log(response.error); }
+		            if(typeof next === 'function') {
+						next(true, null);
+					}
+	           	} else {
+	            	if(_debug) { console.log('shared'); }
+	            	//SUCCESS!
+	          		if(typeof next === 'function') {
+						next(false, response.id);
+			   		}
+	           }
+	    	}
+	    );
+	}
+
+
+####Tiles: Add application to your facebook page
+To add a facebook app to a facbeook page (Tab, now called a Tile), you need to be an admin of the application and the facebook page. The process to accomplish this used to be a button click, however the process is now a bit convuluted.
+
+[Here](https://developers.facebook.com/docs/appsonfacebook/pagetabs/) is the gist of it.
+
+1. Add a URL to the facebook tab section when editing your application.
+![App to page](readme/009-tab.png)
+2. TO BE CONTINUED :D (But follow the docs in the above link)
 
 
 # License:
