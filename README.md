@@ -30,13 +30,13 @@ Your first step to create a Facebook application is to [register it](https://dev
 
 After following the link above, click the Create New App button. You'll be presented with a screen asking for the **name** of the app, and it's **namespace**. The namespace will be both the URL of the canvas app (more on that later) and referenced in code to perform actions with the Open Graph API (again, more on that later). 
 
-![Register App](readme/001-register_app.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/001-register_app.png)
 
 **Where's your iframe**
 
 Once you've registered your app, you need to tell Facebook where to pull in your website. Facebook pulls in YOUR website via an iFrame for its application, so you just need to let facebook know where that lives.
 
-![Register App](readme/002-iframe.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/002-iframe.png)
 
 On the Basic app settings (Settings > Basic in left-hand navigation), there are two areas that need filling out.
 
@@ -143,17 +143,17 @@ When ane actions is performed, it's just like hitting a `Like` button on a webpa
 
 Head to the Open Graph settings while editing your application. Start by defining and Action and an Object. In our example, we're allowing people to `Eat` some `Bugs`.
 
-![Register App](readme/003-action.png)
-![Register App](readme/004-object.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/003-action.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/004-object.png)
 
 After these **both** are created, you need to set them up further with some extra options. Click into your newly created Action (Eat).
 
 **Configure the action:**
 
 1. Under the Name of the action (Eat), enter in the corresponding Object (Bugs) in the Connected Object Types field.
-![Register App](readme/005-action.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/005-action.png)
 2. Scroll down to Configure Story Attachment and add in any captions or info you want to in included in when the action is performed. If you click **advanced**, you can see/edit what the open graph action url will be (/me/apps_field_guide:eat).
-![Register App](readme/006-action-caption.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/006-action-caption.png)
 3. Save that.
 
 **Configure the object:**
@@ -162,10 +162,10 @@ Now head to your Object type and click on it to edit (Bugs).
 
 1. Click on the object (Bug) to edit it
 2. Note you can make it an Object or Place. We're doing an Object here.
-![Register App](readme/007-object.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/007-object.png)
 3. You can add custom properties if you want. These will be needed in the og:* meta tags of your object URL
 4. Click on Get Code on the bottom to see what HTML code you'll need on the URL representing your object
-![Register App](readme/008-object-custom.png)
+![Register App](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/008-object-custom.png)
 
 Now, how does this all fit together? You'll need:
 
@@ -213,7 +213,7 @@ To add a facebook app to a facbeook page (Tab, now called a Tile), you need to b
 [Here](https://developers.facebook.com/docs/appsonfacebook/pagetabs/) is the gist of it.
 
 1. Add a URL to the facebook tab section when editing your application.
-![App to page](readme/009-tab.png)
+![App to page](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/009-tab.png)
 2. TO BE CONTINUED :D (But follow the docs in the above link)
 
 
