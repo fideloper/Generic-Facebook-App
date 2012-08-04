@@ -1,7 +1,7 @@
 #Facebook Applications
 ###A Field Guide
 
-####Sumary
+##Summary
 **Creating an application (Canvas Page)**
 	
 1. Where's your iFrame
@@ -20,8 +20,10 @@
 1. Getting an app into a tile
 2. Retrieving GET data
 3. Client and server-side code
-	
-####Create an application
+
+##The Content:
+
+###Create an application
 There was a time when you could build Facebook applications within Facebook. Now, however, Facebook applications are on your servers, and use code you write. This means a Facebook application is loading a web-page you host from within an iFrame.
 
 Your first step to create a Facebook application is to [register it](https://developers.facebook.com/apps). When creating an application, there are many forms to fill out. This will **not** be a comprehensive guide.
@@ -125,7 +127,7 @@ window.fbAsyncInit = function() {
 }(document));
 ```
 
-####Open Graph: Doin' Stuff
+###Open Graph: Doin' Stuff
 We want our users to do stuff, and share that on their wall/timeline. In the Open Graph settings, you can define what a user is doing, and it can be anything.
 
 There are two types of objects an action can be performed on:
@@ -211,7 +213,7 @@ this.fbPublish = function(url, next) {
 ```
 
 
-####Tiles: Add application to your facebook page
+###Tiles: Add application to your facebook page
 To add a facebook app to a facbeook page (Tab, now called a Tile), you need to be an admin of the application and the facebook page. The process to accomplish this used to be a button click, however the process is now a bit convuluted.
 
 [Here](https://developers.facebook.com/docs/appsonfacebook/pagetabs/) is the gist of it.
@@ -222,7 +224,7 @@ To add a facebook app to a facbeook page (Tab, now called a Tile), you need to b
 
 *Note:* That URL needs to be one that you "own" as part of the app, but it's just a URL to go to after you add the app to your page. It has no effect on your application.
 
-####Server-side code.
+###Server-side code.
 Facebook Tile (Tab) pages and Facebook canvas applications both get data POSTed to them - A `signed_request` POST variable, which can get parsed using [Facebook's documentation on the topic](https://developers.facebook.com/docs/authentication/signed_request/). Copy and paste that function to parse it out, or use their SDK to do it for you.
 
 ```php
