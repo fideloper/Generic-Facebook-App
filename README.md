@@ -266,8 +266,8 @@ Canvas apps (Urls in the form of `http://apps.facebook.com/your_app_namespace`) 
 ```php
 <?php
 //Fictitious Example
-if( isset( $_GET['bug] ) ) {
-	$bug = trim($_GET['bug]);
+if( isset( $_GET['bug'] ) ) {
+	$bug = trim($_GET['bug']);
 	$bug_object = $this->db->select()->from('bugs')->where('type', $bug);
 }
 ```	    
