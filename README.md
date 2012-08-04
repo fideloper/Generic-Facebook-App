@@ -61,67 +61,69 @@ The same is **NOT** true for Facebook Tile (tab) pages. There's a more complicat
 
 Here are some code snippets to help you get setup, login, etc.
 
-	//Called when FB object is loaded and ready
-	window.fbAsyncInit = function() {
-		FB.init({
-	        appId      : '01234567890', // Your App ID
-	        status     : true, // check login status
-	        cookie     : true, // enable cookies to allow the server to access the session
-	        xfbml      : true  // parse XFBML
-	  	});
+```javascript
+//Called when FB object is loaded and ready
+window.fbAsyncInit = function() { 
+    FB.init({
+        appId      : '01234567890', // Your App ID
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+    });
 
-	  	//FB global object is available now
-
-
-	  	/* Check if user is logged in and/or hasn't authorized app permissions */
-	  	FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				// the user is logged in and has authenticated
-				console.log('Ready to roll');
-			} else if (response.status === 'not_authorized') {
-				// the user is logged in to Facebook, but not authenticated
-				console.log('Permissions revoked or not given');
-			} else {
-				// the user isn't logged in to Facebook.
-				console.log('Not logged in');
-			}
-		});
+    //FB global object is available now
 
 
-
-	  	/* Log a user in */
-	  	FB.login(function(response) {
-			if (response.authResponse) {
-				//Logged in
-				console.log('logged in');
-			} else {
-				//User cancelled login or did not fully authorize.
-				console.log('not authorized or not logged in');
-			}
-		}, {scope:'publish_actions'}); //Give us permission to post to users wall
+    /* Check if user is logged in and/or hasn't authorized app permissions */
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            // the user is logged in and has authenticated
+            console.log('Ready to roll');
+        } else if (response.status === 'not_authorized') {
+            // the user is logged in to Facebook, but not authenticated
+            console.log('Permissions revoked or not given');
+        } else {
+            // the user isn't logged in to Facebook.
+            console.log('Not logged in');
+        }
+    });
 
 
 
-	  	/* Check for changes in user status */
-	  	FB.Event.subscribe('auth.statusChange', function(response) {
-			if (response.authResponse) {
-				// user has auth'd your app and is logged into Facebook
-				console.log('ready to roll');
-			} else {
-				// user has not auth'd your app, or is not logged into Facebook
-				console.log('not authorized or not logged in');
-			}
-		});
+    /* Log a user in */
+    FB.login(function(response) {
+        if (response.authResponse) {
+            //Logged in
+            console.log('logged in');
+        } else {
+            //User cancelled login or did not fully authorize.
+            console.log('not authorized or not logged in');
+        }
+    }, {scope:'publish_actions'}); //Give us permission to post to users wall
 
-	}
 
-	// Load the SDK Asynchronously
-	(function(d){
-	  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-	  js = d.createElement('script'); js.id = id; js.async = true;
-	  js.src = "//connect.facebook.net/en_US/all.js";
-	  d.getElementsByTagName('head')[0].appendChild(js);
-	}(document));
+
+    /* Check for changes in user status */
+    FB.Event.subscribe('auth.statusChange', function(response) {
+        if (response.authResponse) {
+            // user has auth'd your app and is logged into Facebook
+            console.log('ready to roll');
+        } else {
+            // user has not auth'd your app, or is not logged into Facebook
+            console.log('not authorized or not logged in');
+        }
+    });
+
+}
+
+// Load the SDK Asynchronously
+(function(d){
+    var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+}(document));
+```
 
 ####Open Graph: Doin' Stuff
 We want our users to do stuff, and share that on their wall/timeline. In the Open Graph settings, you can define what a user is doing, and it can be anything.
@@ -174,37 +176,39 @@ Now, how does this all fit together? You'll need:
 
 **Client-side code**
 
-	/**
-	* 	This is for sharing
-	*
-	* 	@param: url - The URL of the item representing the Bug object (example.com/my-bug)
-	* 	@param: next - A javascript callback function (specific to this example)
-	*
-	*	Note the API url we are using - For current logged-in user (/me), perform action
-	* 	fido_stream_test:eat (your_app_namespace:action). The parameter it takes is the
-	*	object we created.
-	*/
-	this.fbPublish = function(url, next) {
-		FB.api(
-	        '/me/fido_stream_test:eat',
-	        'POST',
-	        {bug: url},
-	        function(response) {
-	           	if (!response || response.error) {
-	              	if(_debug) { console.log(response.error); }
-		            if(typeof next === 'function') {
-						next(true, null);
-					}
-	           	} else {
-	            	if(_debug) { console.log('shared'); }
-	            	//SUCCESS!
-	          		if(typeof next === 'function') {
-						next(false, response.id);
-			   		}
-	           }
-	    	}
-	    );
-	}
+```javascript
+/**
+*   This is for sharing
+*
+*   @param: url - The URL of the item representing the Bug object (example.com/my-bug)
+*   @param: next - A javascript callback function (specific to this example)
+*
+* Note the API url we are using - For current logged-in user (/me), perform action
+*   fido_stream_test:eat (your_app_namespace:action). The parameter it takes is the
+* object we created.
+*/
+this.fbPublish = function(url, next) {
+  FB.api(
+        '/me/fido_stream_test:eat',
+        'POST',
+        {bug: url},
+        function(response) {
+            if (!response || response.error) {
+                if(_debug) { console.log(response.error); }
+              if(typeof next === 'function') {
+          next(true, null);
+        }
+            } else {
+              if(_debug) { console.log('shared'); }
+              //SUCCESS!
+              if(typeof next === 'function') {
+          next(false, response.id);
+          }
+           }
+      }
+    );
+}
+```
 
 
 ####Tiles: Add application to your facebook page
@@ -214,8 +218,109 @@ To add a facebook app to a facbeook page (Tab, now called a Tile), you need to b
 
 1. Add a URL to the facebook tab section when editing your application.
 ![App to page](https://raw.github.com/fideloper/Generic-Facebook-App/master/readme/009-tab.png)
-2. TO BE CONTINUED :D (But follow the docs in the above link)
+2. Use the facebook url `https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&next=YOUR_URL` and replace YOUR_APP_ID with … your application id, and replace YOUR_URL with http://apps.facebook.com/your_namespace. This will ask which facebook page you wish to add your application to. After this, you can head to your page and see your application appear within a Facebook Tile page (Looks better than a canvas app!).
 
+*Note:* That URL needs to be one that you "own" as part of the app, but it's just a URL to go to after you add the app to your page. It has no effect on your application.
+
+####Server-side code.
+Facebook Tile (Tab) pages and Facebook canvas applications both get data POSTed to them - A `signed_request` POST variable, which can get parsed using [Facebook's documentation on the topic](https://developers.facebook.com/docs/authentication/signed_request/). Copy and paste that function to parse it out, or use their SDK to do it for you.
+
+```php
+<?php
+function parse_signed_request($signed_request, $secret) {
+    list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
+
+    // decode the data
+    $sig = base64_url_decode($encoded_sig);
+    $data = json_decode(base64_url_decode($payload), true);
+
+    if (strtoupper($data['algorithm']) !== 'HMAC-SHA256') {
+        error_log('Unknown algorithm. Expected HMAC-SHA256');
+        return null;
+    }
+
+    // check sig
+    $expected_sig = hash_hmac('sha256', $payload, $secret, $raw = true);
+    if ($sig !== $expected_sig) {
+        error_log('Bad Signed JSON signature!');
+        return null;
+    }
+
+    return $data;
+}
+
+function base64_url_decode($input) {
+    return base64_decode(strtr($input, '-_', '+/'));
+}
+
+//Fictitious Usage:
+if( isset( $_POST['signed_request'] ) ) {
+    $data = parse_signed_request($_POST['signed_request'], $my_app_secret);
+    var_dump($data);
+}
+```
+
+**Canvas Apps**
+Canvas apps (Urls in the form of `http://apps.facebook.com/your_app_namespace`) pass GET data directly to your iframe. A url of http://apps.facebook.com/your_app_namespace?bug=ant will make the "bug" GET variable excessible to your iframe. Easy.
+
+```php
+<?php
+//Fictitious Example
+if( isset( $_GET['bug] ) ) {
+	$bug = trim($_GET['bug]);
+	$bug_object = $this->db->select()->from('bugs')->where('type', $bug);
+}
+```	    
+
+**Page Tile/Tabs**
+Tab pages do NOT get the GET data passed directly. Instead, they allow you to pass data indirectly. You may pass data via the add_data GET parameter, which gets POSTed to your iframe. For instance, a url of http://facebook.com/my_awesome_page?app_data=action:eat,object=bug will pass the string "action:eat,object:bug" as part of the POSTed `signed_request`, which was explained above.
+
+```php
+<?php
+
+function parse_appdata($data='') {
+    if($data === '') {
+      return array();
+    }
+
+    //Split by commas
+    $pairs = explode(',', $data);
+    if(count($pairs) === 0 || is_array($pairs) === FALSE) {
+        return array();
+    }
+
+    $return = array();
+    $temp = FALSE;
+
+    //Split by colons
+    foreach($pairs as $pair) {
+        $temp = explode(':', $pair);
+        if(count($temp) !== 2) {
+          continue;
+        }
+        $return[$temp[0]] = $temp[1];
+    }
+
+        return $return;
+    }
+}
+
+//Fictitious Usage:
+if( isset( $_POST['signed_request'] ) ) {
+  $data = parse_signed_request($_POST['signed_request'], $my_app_secret);
+  //$data === action:eat,object:bug
+  
+  $parsed_data = parse_appdata($data);
+  var_dump($data);
+  /* 
+  $data === array(
+      'action' => 'eat',
+      'object' => 'bug'
+      )
+  */
+  
+}
+```
 
 # License:
 Do whatever you want with this.
